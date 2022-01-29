@@ -8,7 +8,7 @@ export class CreateMessagesTable1642530204098 implements MigrationInterface {
     columns: [
       {
         name: 'uid',
-        type: 'integer',
+        type: 'UUID',
         isPrimary: true,
         isNullable: false,
       },
@@ -26,13 +26,23 @@ export class CreateMessagesTable1642530204098 implements MigrationInterface {
       },
       {
       name: 'user_id',
-      type: 'integer',
+      type: 'UUID',
       isNullable: false,
+      },
+      {
+        name: "created_at",
+        type: "timestamp",
+        isNullable: false,
+      },
+      {
+        name: "updated_at",
+        type: "timestamp",
+        isNullable: false,
       }
     ],
     foreignKeys: [
         new TableForeignKey({
-          name: "messages_user",
+          name: "fk_messages_users",
           columnNames: ["user_id"],
           referencedTableName: "users",
           referencedColumnNames: ["uid"],
@@ -41,8 +51,7 @@ export class CreateMessagesTable1642530204098 implements MigrationInterface {
   }));
 }
 
-public async down(queryRunner: QueryRunner): Promise<void> {
-  await queryRunner.dropTable('messages');
-}
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('messages');
+  }
 }

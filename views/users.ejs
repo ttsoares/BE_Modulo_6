@@ -13,7 +13,7 @@
 
   <tr>
     <% data.forEach((item, i) => { %>
-      <th scope="row"><%=item.uid%></th>
+      <th scope="row"><%=i+1%></th>
       <td><%=item.name%></td>
       <td><%=item.password%></td>
       <td> <button class="btn btn-sm btn-danger btn-rounded remove" id="<%=item.uid%>D">Delete</<button>

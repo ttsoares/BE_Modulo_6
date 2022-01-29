@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { Controller } from "../../../../core/presentation/contracts/controller"
-import { serverError, sucess,
+
+import { serverError, sucess, badRequest, notFound
 } from "../../../../core/presentation/helpers/helpers";
+
 import { UserRepository } from "../../infra/repositories/user.repository"
 
 export class CreateUserController implements Controller{
@@ -11,15 +13,16 @@ export class CreateUserController implements Controller{
 		const repository = new UserRepository();
     const { name, password } = req.body;
 
-    const userExists = await repository.signIn(name);
-    if (userExists)  return res.status(400).send("Usuário já existe !");
+    const userExists = await repository.findByName(name);
 
-		const newUser = await repository.signUp({
+		if (userExists) return badRequest(res, "Usuário já existe !");
+
+		await repository.createUser({
 			name: name,
 			password: password
 		})
 
-		return res.status(200).send(`${newUser}`);
+		return sucess(res, "Usuario criado");
 
 	} catch (err:any) {
 			return serverError(res, err);

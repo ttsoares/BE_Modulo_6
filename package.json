@@ -1,7 +1,7 @@
 {
-  "name": "recados-nuvem-arquitetura",
+  "name": "recados-nuvem-redis",
   "version": "1.0.0",
-  "description": "Sistema do modulo 5 hospedado no Heroku",
+  "description": "Sistema do modulo 6 hospedado no Heroku",
   "main": "./dist/server.js",
   "scripts": {
     "start": "node ./dist/server.js",
@@ -13,18 +13,20 @@
   "author": "Thomas TS",
   "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/ttsoares/BE_modulo_5/issues"
+    "url": "https://github.com/ttsoares/BE_modulo_6/issues"
   },
-  "homepage": "https://github.com/ttsoares/BE_modulo_5/#readme",
+  "homepage": "https://github.com/ttsoares/BE_modulo_6/#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
+    "ioredis": "^4.28.3",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.2.41",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

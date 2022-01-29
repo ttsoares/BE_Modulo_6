@@ -2,11 +2,10 @@ import { MessageEntity } from
 "../../../../core/infra/data/database/entities/MessageEntitie";
 import { UserEntity } from
 "../../../../core/infra/data/database/entities/UserEntitie";
-
 import { User } from "../../domain/models/user";
 
 interface UserParams {
-  uid?: number;
+  uid?: string;
   name: string;
   password: string;
 }
@@ -15,7 +14,7 @@ export class UserRepository {
 //***************************
 
   /////  Cria um novo usuário no DB
-  async signUp(data: UserParams): Promise<User> {
+  async createUser(data: UserParams): Promise<User> {
 
     const userEntity = UserEntity.create({
       name: data.name,
@@ -28,26 +27,26 @@ export class UserRepository {
   }
 
   /////  Verifica autenticação do usuário
-  async signIn(name: string): Promise<User | undefined> {
+  async findByName(name: string): Promise<User | undefined> {
 
     const userEntity = await UserEntity.findOne({
       where: { name: name }
     });
-
 
     if (!userEntity) return undefined;
 
     return this.mapperFromEntityToModel(userEntity);
   }
 
-  ///// Busca um usuário peo 'uid'
-  async getOne(uid: number): Promise<User> {
+  ///// Busca um usuário pelo 'uid'
+  async findById(uid: string): Promise<User | undefined> {
 
     const userEntity = await UserEntity.findOne({
-      where: { uid:uid }
-    });
+      where: { uid:uid } });
 
-    return this.mapperFromEntityToModel(userEntity!);
+    if (!userEntity) return  undefined;
+
+    return this.mapperFromEntityToModel(userEntity);
   }
 
   ///// Traz a lista de usuários
@@ -60,20 +59,22 @@ export class UserRepository {
   }
 
   ///// Remove um usuário
-  async delete(uid: number): Promise<User | undefined> {
+  async delete(uid: string): Promise<User | undefined> {
 
     const userEntity = await UserEntity.findOne(uid);
-    if (!userEntity) return undefined;
-    const apagado = await userEntity.remove()
 
-    return this.mapperFromEntityToModel(userEntity!);
+    if (!userEntity) return undefined;
+
+    await userEntity.remove()
+
+    return this.mapperFromEntityToModel(userEntity);
   }
 
   /////  Atualiza um usuário no DB
   async update(data: UserParams): Promise<User | undefined> {
 
-    const updtUser: UserEntity | undefined = await UserEntity.findOne({
-			where: [ {uid: data.uid}]})
+    const updtUser = await UserEntity.findOne({
+			where: {uid: data.uid}})
 
     if (!updtUser) return undefined;
 
@@ -88,10 +89,9 @@ export class UserRepository {
 
   private mapperFromEntityToModel(entity: UserEntity): User {
     return {
-      uid: Number(entity.uid),
+      uid: String(entity.uid),
       name: entity.name,
       password: entity.password,
-      messages: entity.message,
     };
   }
 }

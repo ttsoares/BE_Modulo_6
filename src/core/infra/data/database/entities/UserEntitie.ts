@@ -1,20 +1,39 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 
+import { v4 as uuid } from "uuid";
 import { MessageEntity } from "./MessageEntitie";
 
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-    uid?: number;
+  @PrimaryColumn()
+    uid!: string;
 
   @Column()
-    name: string;
+    name!: string;
 
   @Column()
-    password: string;
+    password!: string;
+
+  @Column({ name: "created_at" })
+    createdAt!: Date;
+
+  @Column({ name: "updated_at" })
+    updatedAt!: Date;
 
   @OneToMany(() => MessageEntity, message => message.user, {onDelete:"CASCADE"})
-    message!: MessageEntity[];
+  message!: MessageEntity[];
+
+  @BeforeInsert()
+  private beforeInsert(){
+    this.uid = uuid();
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+
+  @BeforeUpdate()
+  private beforeUpdate() {
+    this.updatedAt = new Date();
+  }
 
   constructor( name: string, password: string ) {
     super();

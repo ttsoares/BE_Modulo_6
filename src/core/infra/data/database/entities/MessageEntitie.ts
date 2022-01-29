@@ -1,12 +1,12 @@
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn, JoinColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 
-import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
-
+import { v4 as uuid } from "uuid";
 import { UserEntity } from "./UserEntitie"
 
 @Entity({ name: "messages" })
 export class MessageEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-    uid!: number;
+  @PrimaryColumn()
+    uid!: string;
 
   @Column()
     description: string;
@@ -15,13 +15,31 @@ export class MessageEntity extends BaseEntity {
     details: string;
 
   @Column()
-    user_id: number;
+    user_id: string;
+
+  @Column({ name: "created_at" })
+    createdAt!: Date;
+
+  @Column({ name: "updated_at" })
+    updatedAt!: Date;
 
   @ManyToOne(() => UserEntity, user => user.message)
   @JoinColumn({ name: "user_id", referencedColumnName: "uid" })
   user!: UserEntity;
 
-  constructor( description: string, details: string, user_id: number ) {
+  @BeforeInsert()
+  private beforeInsert(){
+    this.uid = uuid();
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+
+  @BeforeUpdate()
+  private beforeUpdate() {
+    this.updatedAt = new Date();
+  }
+
+  constructor( description: string, details: string, user_id: string ) {
     super();
     this.description = description;
     this.details = details;

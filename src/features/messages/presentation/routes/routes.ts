@@ -18,13 +18,13 @@ export default class MessageRoutes{
         routes.get('/messages/:userid', new GetAllMessagesController().handle);
 
         // DELETE MESSAGES FROM AN USER
-        routes.delete('/user/:userid/message/:messageid', new DeleteMessageController().handle);
+        routes.delete('/message/:messageid', new DeleteMessageController().handle);
 
         // RETURN ONE MESSAGE FROM AN USER
-        routes.get('/user/:userid/message/:messageid', new GetOneMessageController().handle);
+        routes.get('/message/:messageid', new GetOneMessageController().handle);
 
         // SAVE EDITED MESSAGE FROM AN USER
-        routes.put('/user/:userid/message/:messageid', new UpdateMessageController().handle);
+        routes.put('/message/:messageid', new UpdateMessageController().handle);
 
         return routes;
     }

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { Controller } from "../../../../core/presentation/contracts/controller"
-import { serverError, sucess,
-} from "../../../../core/presentation/helpers/helpers";
+import { Controller } from "../../../../core/presentation/contracts/controller";
+import { serverError } from "../../../../core/presentation/helpers/helpers";
 import { UserRepository } from "../../infra/repositories/user.repository"
 
 export class GetAllUsersController implements Controller{

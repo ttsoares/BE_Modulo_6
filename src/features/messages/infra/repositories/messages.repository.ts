@@ -8,11 +8,11 @@ import { Message } from "../../domain/models/message";
 interface CreateMessageParams {
   description: string;
   details: string;
-  user_id: number;
+  user_id: string;
 }
 
 interface UpdateMessageParams{
-  uid: number,
+  uid: string,
   description: string;
   details: string;
 }
@@ -35,23 +35,25 @@ export class MessageRepository {
   }
 
   /////  Busca um array com todas as mensagens de um usuário
-  async getAll(user_id: number): Promise<Message[]> {
+  async getAll(user_id: string): Promise<Message[]> {
     const allMessages = await MessageEntity.find({where: {user_id} });
 
     return allMessages.map(elm => this.mapperFromEntityToModel(elm))
   }
 
   /////   Apaga uma mensagem pelo 'uid'
-  async delete(uid: number): Promise<Message | undefined> {
+  async delete(uid: string): Promise<Message | undefined> {
     const oneMessage = await MessageEntity.findOne(uid);
 
     if (!oneMessage) return undefined;
-    const removed = await oneMessage.remove()
+
+    await oneMessage.remove()
+
     return this.mapperFromEntityToModel(oneMessage);
   }
 
   /////  Busca uma mensagem pelo 'uid'
-  async getByUid(uid: number): Promise<Message | undefined> {
+  async getByUid(uid: string): Promise<Message | undefined> {
     const oneMessage = await MessageEntity.findOne(uid, {
       select: ["description", "details", "uid"]});
 
@@ -63,7 +65,7 @@ export class MessageRepository {
   async update( data: UpdateMessageParams, ): Promise<Message | undefined> {
 
     const oneMessage: MessageEntity | undefined = await MessageEntity.findOne({
-			where: [ {uid: data.uid} ]});
+			where: {uid: data.uid} });
 
     if (!oneMessage) return undefined;
 

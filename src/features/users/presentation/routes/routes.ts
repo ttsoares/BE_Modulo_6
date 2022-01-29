@@ -21,7 +21,7 @@ export default class UserRoutes{
         // LIST ALL Users
         routes.get('/users', new GetAllUsersController().handle);
 
-        // GET ONE USER FOR EDIT
+        // GET ONE USER FROM id FOR EDIT
         routes.get('/user/:userid', new GetOneUserController().handle);
 
         // SAVE EDITED USER

@@ -1,8 +1,7 @@
 import { MessageEntity } from "../../../../core/infra/data/database/entities/MessageEntitie";
 
 export interface User {
-  uid: number;
+  uid: string;
   name: string;
   password: string;
-  messages?: Array<MessageEntity>;
 }
