@@ -3,6 +3,8 @@ import { Controller } from "../../../../core/presentation/contracts/controller";
 import { serverError } from "../../../../core/presentation/helpers/helpers";
 import { UserRepository } from "../../infra/repositories/user.repository"
 
+import { CacheRepository } from "../../../../core/infra/repositories/cache.repository";
+
 export class GetAllUsersController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {

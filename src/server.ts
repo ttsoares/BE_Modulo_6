@@ -1,10 +1,10 @@
 import App from "./core/presentation/app";
 import Database from "./core/infra/data/connections/database";
+import Redis from "./core/infra/data/connections/redis";
 import 'dotenv/config'
 import "reflect-metadata";
 
-new Database()
-  .openConnection()
+Promise.all([new Database().openConnection(), new Redis().openConnection()])
   .then(() => {
     const app = new App();
     app.init();

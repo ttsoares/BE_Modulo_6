@@ -5,6 +5,8 @@ import { UserRepository } from "../../infra/repositories/user.repository";
 import { serverError, sucess, badRequest, notFound }
 from "../../../../core/presentation/helpers/helpers";
 
+import { CacheRepository } from "../../../../core/infra/repositories/cache.repository";
+
 export class UpdateUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
