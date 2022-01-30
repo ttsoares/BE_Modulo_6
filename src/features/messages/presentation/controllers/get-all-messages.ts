@@ -16,6 +16,8 @@ export class GetAllMessagesController implements Controller{
 
 			const messagesCache = await cache.get("messages");
 
+			console.log(messagesCache);
+
 			if (messagesCache) {
         return res.status(200).render('messages', {data:messagesCache});
       }
