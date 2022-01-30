@@ -19,7 +19,7 @@ export class LoginUserController implements Controller{
 
       if (userExists.password !== password) return badRequest(res,"Senha errada");
 
-<<<<<<< HEAD
+
       // No cache a busca não é feita por user_ui, é uma busca cega.
       // Então cada vez que um usuário loga tem que limpar o Cache.
       // Se não fizer isso as mensagens que virão serão as no Cache
@@ -27,9 +27,7 @@ export class LoginUserController implements Controller{
 
       const cache = new CacheRepository();
       await cache.delete("messages");
-
-=======
->>>>>>> e12d27432b2e8278ad14c4297db30ee55a71a84e
+      
       return sucess(res, `${userExists.uid}`);
 
     } catch (err:any) {

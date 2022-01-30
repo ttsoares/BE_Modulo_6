@@ -50,10 +50,8 @@ export class UserRepository {
   }
 
   ///// Traz a lista de usuários
-  async getAll(): Promise<User[] | undefined> {
+  async getAll(): Promise<User[]> {
     const userEntities = await UserEntity.find();
-
-    if (!userEntities) return  undefined;
 
     return userEntities.map((userEntity) =>
       this.mapperFromEntityToModel(userEntity)
@@ -86,11 +84,7 @@ export class UserRepository {
     await updtUser.save();
 
     return this.mapperFromEntityToModel(updtUser);
-<<<<<<< HEAD
   }
-=======
-  } 
->>>>>>> e12d27432b2e8278ad14c4297db30ee55a71a84e
 
   private mapperFromEntityToModel(entity: UserEntity): User {
     return {
