@@ -26,7 +26,7 @@ export class UserRepository {
     return this.mapperFromEntityToModel(userEntity);
   }
 
-  /////  Verifica autenticação do usuário
+  /////  Verifica a existência do usuário
   async findByName(name: string): Promise<User | undefined> {
 
     const userEntity = await UserEntity.findOne({
@@ -46,12 +46,16 @@ export class UserRepository {
 
     if (!userEntity) return  undefined;
 
+    console.log(userEntity);
+
     return this.mapperFromEntityToModel(userEntity);
   }
 
   ///// Traz a lista de usuários
-  async getAll(): Promise<User[]> {
+  async getAll(): Promise<User[] | undefined> {
     const userEntities = await UserEntity.find();
+
+    if (!userEntities) return  undefined;
 
     return userEntities.map((userEntity) =>
       this.mapperFromEntityToModel(userEntity)
@@ -85,7 +89,6 @@ export class UserRepository {
 
     return this.mapperFromEntityToModel(updtUser);
   }
-
 
   private mapperFromEntityToModel(entity: UserEntity): User {
     return {

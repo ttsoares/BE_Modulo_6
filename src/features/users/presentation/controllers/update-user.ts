@@ -10,7 +10,7 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class UpdateUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
-			const user_id = String(req.params.userid);
+			const user_id = req.params.userid;
 			const { name, password }: { name: string; password: string } = req.body;
 
 			const repository = new UserRepository();

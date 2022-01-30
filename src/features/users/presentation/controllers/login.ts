@@ -19,10 +19,6 @@ export class LoginUserController implements Controller{
 
       if (userExists.password !== password) return badRequest(res,"Senha errada");
 
-      const cache = new CacheRepository();
-      await cache.delete("users");
-      await cache.delete(`user:${userExists.uid}`);
-
       return sucess(res, `${userExists.uid}`);
 
     } catch (err:any) {

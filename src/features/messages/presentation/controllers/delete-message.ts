@@ -11,7 +11,7 @@ export class DeleteMessageController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 
 		try {
-			const message_id = String(req.params.messageid);
+			const message_id = req.params.messageid;
 
 			const cache = new CacheRepository();
 			const repository = new MessageRepository();

@@ -12,7 +12,7 @@ from "../../../../core/presentation/helpers/helpers";
 export class UpdateMessageController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
-			const message_id = String(req.params.messageid);
+			const message_id = req.params.messageid;
 			const { description, details } = req.body;
 
 			const repository = new MessageRepository();

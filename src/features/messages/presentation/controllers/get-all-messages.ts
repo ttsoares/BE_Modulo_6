@@ -11,11 +11,12 @@ from "../../../../core/presentation/helpers/helpers";
 export class GetAllMessagesController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
-			const user_id = String(req.params.userid);
+			const user_id = req.params.userid;
 			const cache = new CacheRepository();
 
-			// tem que buscar no cacha só as mensagens do `user_id` !!
 			const messagesCache = await cache.get("messages");
+
+			console.log(messagesCache);
 
 			if (messagesCache) {
         return res.status(200).render('messages', {data:messagesCache});
@@ -23,6 +24,10 @@ export class GetAllMessagesController implements Controller{
 
 			const repository = new MessageRepository();
 			const allMessages = await repository.getAll(user_id)
+
+			if(!allMessages.length) return notFound(res);
+
+			await cache.set("messages", allMessages);
 
 			return res.status(200).render('messages', {data:allMessages});
 
