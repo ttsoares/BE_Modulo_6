@@ -11,18 +11,23 @@ import { UserRepository } from "../../infra/repositories/user.repository"
 export class CreateUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
+		const { name, password } = req.body;
 
+		const cache = new CacheRepository();
 		const repository = new UserRepository();
-    const { name, password } = req.body;
 
     const userExists = await repository.findByName(name);
-
 		if (userExists) return badRequest(res, "Usuário já existe !");
 
-		await repository.createUser({
+		const user = await repository.createUser({
 			name: name,
 			password: password
-		})
+		});
+
+		const result = await cache.set(`user:${user.uid}`, user);
+		if (!result) console.log("NÃO SALVOU NO CACHE");
+
+		await cache.delete("users");
 
 		return sucess(res, "Usuario criado");
 

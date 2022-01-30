@@ -10,12 +10,21 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class GetOneUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
+			const user_id = String(req.params.userid)
+
+			const cache = new CacheRepository();
+			const userCache = await cache.get(`user:${user_id}`);
+
+			if (userCache) {
+				return sucess(res, Object.assign({}, userCache, { _cache: true }));
+			}
 
 		const repository = new UserRepository();
-    const user_id = String(req.params.userid)
     const findUser  = await repository.findById(user_id);
 
 		if (!findUser) return notFound(res, "Usuário não encontrado");
+
+		await cache.set(`user:${findUser.uid}`, findUser);
 
     return sucess(res, findUser);
 

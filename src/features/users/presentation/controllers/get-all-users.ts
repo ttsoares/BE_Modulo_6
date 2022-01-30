@@ -8,12 +8,17 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class GetAllUsersController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
+			const cache = new CacheRepository();
+			const usersCache = await cache.get("users");
 
-		const repository = new UserRepository();
+			if (usersCache) {
+        return res.status(200).render('messages', {data:usersCache});
+      }
 
-		const allUsers = await repository.getAll()
+			const repository = new UserRepository();
+			const allUsers = await repository.getAll()
 
-		return res.status(200).render('users', {data:allUsers});
+			return res.status(200).render('users', {data:allUsers});
 
 	} catch (err:any) {
 			return serverError(res, err);

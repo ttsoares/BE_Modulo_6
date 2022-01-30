@@ -10,11 +10,11 @@ from "../../../../core/presentation/helpers/helpers";
 export class CreateMessageController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
-			const repository = new MessageRepository();
-			const cache = new CacheRepository();
-
 			const user_id = String(req.params.userid);
 			const { description, details } = req.body;
+
+			const repository = new MessageRepository();
+			const cache = new CacheRepository();
 
 			const message = await repository.create({
 				description: description,

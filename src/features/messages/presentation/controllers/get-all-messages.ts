@@ -12,10 +12,9 @@ export class GetAllMessagesController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
 			const user_id = String(req.params.userid);
-
 			const cache = new CacheRepository();
 
-			// trm que buscar no cacha só as mensagens do `user_id` !!
+			// tem que buscar no cacha só as mensagens do `user_id` !!
 			const messagesCache = await cache.get("messages");
 
 			if (messagesCache) {

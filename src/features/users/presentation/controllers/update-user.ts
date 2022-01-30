@@ -10,22 +10,26 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class UpdateUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
+			const user_id = String(req.params.userid);
+			const { name, password }: { name: string; password: string } = req.body;
 
-		const repository = new UserRepository();
-    const user_id = String(req.params.userid);
-		const { name, password }: { name: string; password: string } = req.body;
+			const repository = new UserRepository();
 
-		// empty password is not allowed
-		if ( password.replace(/\s+/g,'') === '') return badRequest(res, "Senha vazia !");
+			// empty password is not allowed
+			if ( password.replace(/\s+/g,'') === '') return badRequest(res, "Senha vazia !");
 
-		const userUpdated = await repository.update({name, password, uid: user_id});
+			const userUpdated = await repository.update({name, password, uid: user_id});
 
-		if (!userUpdated) return notFound(res, "Usuário não encontrado");
+			if (!userUpdated) return notFound(res, "Usuário não encontrado");
 
-		return sucess(res, userUpdated);
+			const cache = new CacheRepository();
+      await cache.delete("users");
+      await cache.delete(`user:${user_id}`);
 
-	} catch (err:any) {
+			return sucess(res, userUpdated);
+
+		} catch (err:any) {
 			return serverError(res, err);
-		}
-	}
-}
+		};
+	};
+};

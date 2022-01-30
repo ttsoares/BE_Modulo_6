@@ -10,14 +10,18 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class LoginUserController implements Controller{
   async handle(req: Request, res: Response): Promise<any> {
 		try {
+      const { name, password } = req.body;
 
       const repository = new UserRepository();
-      const { name, password } = req.body;
       const userExists = await repository.findByName(name);
 
       if (!userExists) return badRequest(res, "Usuário não encontrado");
 
       if (userExists.password !== password) return badRequest(res,"Senha errada");
+
+      const cache = new CacheRepository();
+      await cache.delete("users");
+      await cache.delete(`user:${userExists.uid}`);
 
       return sucess(res, `${userExists.uid}`);
 

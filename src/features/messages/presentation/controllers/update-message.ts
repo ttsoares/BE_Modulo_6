@@ -4,7 +4,8 @@ import { MessageRepository} from "../../infra/repositories/messages.repository";
 
 import { CacheRepository } from "../../../../core/infra/repositories/cache.repository";
 
-import { Message } from "../../domain/models/message"
+import { Message } from "../../domain/models/message";
+
 import { serverError, sucess, badRequest, notFound }
 from "../../../../core/presentation/helpers/helpers";
 
@@ -30,6 +31,6 @@ export class UpdateMessageController implements Controller{
 
 		} catch (err:any) {
 			return serverError(res, err);
-		}
-	}
-}
+		};
+	};
+};

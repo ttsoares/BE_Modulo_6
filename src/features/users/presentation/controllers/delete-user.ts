@@ -10,13 +10,18 @@ import { CacheRepository } from "../../../../core/infra/repositories/cache.repos
 export class DeleteUserController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
-		const user_id = String(req.params.userid)
+		const user_id = String(req.params.userid);
+
+		const cache = new CacheRepository();
 		const repository = new UserRepository();
-    const removed = await repository.delete(user_id);
+    const removedUser = await repository.delete(user_id);
 
-		if (!removed) return badRequest(res, "usuário não foi removido");
+		if (!removedUser) return badRequest(res, "usuário não foi removido");
 
-		return sucess(res, removed);
+		await cache.delete(`user:${removedUser.uid}`);
+		await cache.delete("messages")
+
+		return sucess(res, removedUser);
 
 	} catch (err:any) {
 			return serverError(res, err);
