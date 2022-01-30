@@ -18,7 +18,7 @@ export class GetAllUsersController implements Controller{
 			const repository = new UserRepository();
 			const allUsers = await repository.getAll()
 
-			if ( allUsers === undefined) return notFound(res);
+			if (!allUsers.length) return notFound(res);
 
 			await cache.set("users", allUsers);
 

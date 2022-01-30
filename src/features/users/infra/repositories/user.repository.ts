@@ -46,16 +46,12 @@ export class UserRepository {
 
     if (!userEntity) return  undefined;
 
-    console.log(userEntity);
-
     return this.mapperFromEntityToModel(userEntity);
   }
 
   ///// Traz a lista de usuários
-  async getAll(): Promise<User[] | undefined> {
+  async getAll(): Promise<User[]> {
     const userEntities = await UserEntity.find();
-
-    if (!userEntities) return  undefined;
 
     return userEntities.map((userEntity) =>
       this.mapperFromEntityToModel(userEntity)
