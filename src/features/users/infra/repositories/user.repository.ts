@@ -26,25 +26,14 @@ export class UserRepository {
     return this.mapperFromEntityToModel(userEntity);
   }
 
-  /////  Verifica a existência do usuário
-  async findByName(name: string): Promise<User | undefined> {
+  ///// Remove um usuário
+  async delete(uid: string): Promise<User | undefined> {
 
-    const userEntity = await UserEntity.findOne({
-      where: { name: name }
-    });
+    const userEntity = await UserEntity.findOne(uid);
 
     if (!userEntity) return undefined;
 
-    return this.mapperFromEntityToModel(userEntity);
-  }
-
-  ///// Busca um usuário pelo 'uid'
-  async findById(uid: string): Promise<User | undefined> {
-
-    const userEntity = await UserEntity.findOne({
-      where: { uid:uid } });
-
-    if (!userEntity) return  undefined;
+    await userEntity.remove()
 
     return this.mapperFromEntityToModel(userEntity);
   }
@@ -58,19 +47,30 @@ export class UserRepository {
     );
   }
 
-  ///// Remove um usuário
-  async delete(uid: string): Promise<User | undefined> {
+  ///// Busca um usuário pelo 'uid'
+  async findById(uid: string): Promise<User | undefined> {
 
-    const userEntity = await UserEntity.findOne(uid);
+    const userEntity = await UserEntity.findOne({
+      where: { uid:uid } });
 
-    if (!userEntity) return undefined;
-
-    await userEntity.remove()
+    if (!userEntity) return  undefined;
 
     return this.mapperFromEntityToModel(userEntity);
   }
 
-  /////  Atualiza um usuário no DB
+  /////  Verifica a existência do usuário
+  async findByName(name: string): Promise<User | undefined> {
+
+    const userEntity = await UserEntity.findOne({
+      where: { name: name }
+    });
+
+    if (!userEntity) return undefined;
+
+    return this.mapperFromEntityToModel(userEntity);
+  }
+
+    /////  Atualiza um usuário no DB
   async update(data: UserParams): Promise<User | undefined> {
 
     const updtUser = await UserEntity.findOne({

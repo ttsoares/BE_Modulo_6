@@ -19,7 +19,7 @@ export class DeleteUserController implements Controller{
 		if (!removedUser) return badRequest(res, "usuário não foi removido");
 
 		await cache.delete(`user:${removedUser.uid}`);
-		await cache.delete("messages")
+		await cache.delete("users")
 
 		return sucess(res, removedUser);
 

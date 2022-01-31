@@ -20,13 +20,13 @@ export class GetOneUserController implements Controller{
 			}
 
 		const repository = new UserRepository();
-    const findUser  = await repository.findById(user_id);
+    const user  = await repository.findById(user_id);
 
-		if (!findUser) return notFound(res, "Usuário não encontrado");
+		if (!user) return notFound(res, "Usuário não encontrado");
 
-		await cache.set(`user:${findUser.uid}`, findUser);
+		await cache.set(`user:${user.uid}`, user);
 
-    return sucess(res, findUser);
+    return sucess(res, user);
 
 	} catch (err:any) {
 			return serverError(res, err);
