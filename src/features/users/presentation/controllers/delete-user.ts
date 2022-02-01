@@ -12,14 +12,16 @@ export class DeleteUserController implements Controller{
 		try {
 		const user_id = req.params.userid;
 
-		const cache = new CacheRepository();
+		console.log(user_id);
+
 		const repository = new UserRepository();
     const removedUser = await repository.delete(user_id);
 
 		if (!removedUser) return badRequest(res, "usuário não foi removido");
 
-		await cache.delete(`user:${removedUser.uid}`);
-		await cache.delete("users")
+		const cache = new CacheRepository();
+		await cache.delete(`thomas:user:${removedUser.uid}`);
+		await cache.delete("thomas:users")
 
 		return sucess(res, removedUser);
 

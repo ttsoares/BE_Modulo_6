@@ -43,7 +43,14 @@ export class MessageRepository {
 
   /////   Apaga uma mensagem pelo 'uid'
   async delete(uid: string): Promise<Message | undefined> {
+
+    console.log("########################")
+    console.log(uid)
+
     const oneMessage = await MessageEntity.findOne(uid);
+
+    console.log("**********************")
+    console.log(oneMessage);
 
     if (!oneMessage) return undefined;
 

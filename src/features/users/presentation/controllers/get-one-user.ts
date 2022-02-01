@@ -13,7 +13,7 @@ export class GetOneUserController implements Controller{
 			const user_id = req.params.userid
 
 			const cache = new CacheRepository();
-			const userCache = await cache.get(`user:${user_id}`);
+			const userCache = await cache.get(`thomas:user:${user_id}`);
 
 			if (userCache) {
 				return sucess(res, Object.assign({}, userCache, { _cache: true }));
@@ -22,9 +22,9 @@ export class GetOneUserController implements Controller{
 		const repository = new UserRepository();
     const user  = await repository.findById(user_id);
 
-		if (!user) return notFound(res, "Usuário não encontrado");
+		if (!user) return notFound(res, "Usuário não encontrado !");
 
-		await cache.set(`user:${user.uid}`, user);
+		await cache.set(`thomas:user:${user.uid}`, user);
 
     return sucess(res, user);
 

@@ -13,7 +13,6 @@ export class CreateUserController implements Controller{
 		try {
 		const { name, password } = req.body;
 
-		const cache = new CacheRepository();
 		const repository = new UserRepository();
 
     const userExists = await repository.findByName(name);
@@ -24,10 +23,12 @@ export class CreateUserController implements Controller{
 			password: password
 		});
 
-		const result = await cache.set(`user:${user.uid}`, user);
+		const cache = new CacheRepository();
+		const result = await cache.set(`thomas:user:${user.uid}`, user);
+
 		if (!result) console.log("NÃO SALVOU NO CACHE");
 
-		await cache.delete("users");
+		await cache.delete("thomas:users");
 
 		return sucess(res, "Usuario criado");
 

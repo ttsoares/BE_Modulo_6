@@ -23,8 +23,8 @@ export class UpdateUserController implements Controller{
 			if (!userUpdated) return notFound(res, "Usuário não encontrado");
 
 			const cache = new CacheRepository();
-      await cache.delete("users");
-      await cache.delete(`user:${user_id}`);
+      await cache.delete("thomas:users");
+      await cache.set(`thomas:user:${user_id}`, userUpdated);
 
 			return sucess(res, userUpdated);
 

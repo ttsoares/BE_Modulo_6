@@ -14,19 +14,19 @@ export class CreateMessageController implements Controller{
 			const { description, details } = req.body;
 
 			const repository = new MessageRepository();
-			const cache = new CacheRepository();
-
 			const message = await repository.create({
 				description: description,
 				details: details,
 				user_id: user_id
 			});
 
-			const result = await cache.set(`message:${message!.uid}`, message);
+			if (!message) return badRequest(res, "Problema ao escrever do DB !");
+
+			const cache = new CacheRepository();
+			const result = await cache.set(`thomas:message:${message.uid}`, message);
 
 			if (!result) console.log("NÃO SALVOU NO CACHE");
-
-			await cache.delete("messages");
+			await cache.delete(`thomas:${user_id}:messages`);
 
 			return sucess(res, message);
 

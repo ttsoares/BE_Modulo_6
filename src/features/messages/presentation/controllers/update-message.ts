@@ -21,11 +21,11 @@ export class UpdateMessageController implements Controller{
 				description: description, details: details, uid:message_id
 			});
 
-			if (!message) return notFound(res);
+			if (!message) return notFound(res, "Mensagem não encontrada !");
 
 			const cache = new CacheRepository();
-      await cache.delete("messages");
-      await cache.delete(`message:${message_id}`);
+			await cache.delete(`thomas:${message.user_id}:messages`);
+			await cache.set(`thomas:message:${message.uid}`, message);
 
 			return sucess(res, message);
 

@@ -12,13 +12,11 @@ export class GetAllMessagesController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
 			const user_id = req.params.userid;
+
 			const cache = new CacheRepository();
-
-			const messagesCache = await cache.get("messages");
-
-			console.log(messagesCache);
-
+			const messagesCache = await cache.get(`thomas:${user_id}:messages`);
 			if (messagesCache) {
+				console.log("Lista vem do cache");
         return res.status(200).render('messages', {data:messagesCache});
       }
 
@@ -27,8 +25,9 @@ export class GetAllMessagesController implements Controller{
 
 			if(!allMessages.length) return notFound(res);
 
-			await cache.set("messages", allMessages);
+			await cache.set(`thomas:${user_id}:messages`, allMessages);
 
+			console.log("Lista NÃO vem do cache");
 			return res.status(200).render('messages', {data:allMessages});
 
 } catch (err:any) {

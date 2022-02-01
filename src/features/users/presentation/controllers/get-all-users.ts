@@ -9,7 +9,7 @@ export class GetAllUsersController implements Controller{
 	async handle(req: Request, res: Response): Promise<any> {
 		try {
 			const cache = new CacheRepository();
-			const usersCache = await cache.get("users");
+			const usersCache = await cache.get("thomas:users");
 
 			if (usersCache) {
         return res.status(200).render('users', {data:usersCache});
@@ -20,7 +20,7 @@ export class GetAllUsersController implements Controller{
 
 			if (!allUsers.length) return notFound(res);
 
-			await cache.set("users", allUsers);
+			await cache.set("thomas:users", allUsers);
 
 			return res.status(200).render('users', {data:allUsers});
 

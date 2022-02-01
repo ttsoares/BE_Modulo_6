@@ -13,14 +13,14 @@ export class DeleteMessageController implements Controller{
 		try {
 			const message_id = req.params.messageid;
 
-			const cache = new CacheRepository();
 			const repository = new MessageRepository();
 			const removedMessage = await repository.delete(message_id)
 
 			if(!removedMessage) return notFound(res);
 
-			await cache.delete(`message:${removedMessage.uid}`);
-      await cache.delete("messages")
+			const cache = new CacheRepository();
+			await cache.delete(`thomas:message:${removedMessage.uid}`);
+			await cache.delete(`thomas:${removedMessage.user_id}:messages`);
 
 			return sucess(res, removedMessage);
 } catch (err:any) {

@@ -13,8 +13,7 @@ export class GetOneMessageController implements Controller{
 			const message_id = req.params.messageid;
 
 			const cache = new CacheRepository();
-			const messageCache = await cache.get(`message:${message_id}`);
-
+			const messageCache = await cache.get(`thomas:message:${message_id}`);
 			if (messageCache) {
         return sucess(res, Object.assign({}, messageCache, { _cache: true }));
       }
@@ -22,9 +21,9 @@ export class GetOneMessageController implements Controller{
 			const repository = new MessageRepository();
 			const oneMessage = await repository.getByUid(message_id)
 
-			if (!oneMessage)  return notFound(res);
+			if (!oneMessage)  return notFound(res, "Mensagem não encontrada !");
 
-			await cache.set(`message:${oneMessage.uid}`, oneMessage);
+			await cache.set(`thomas:message:${oneMessage.uid}`, oneMessage);
 
 			return sucess(res, oneMessage);
 
