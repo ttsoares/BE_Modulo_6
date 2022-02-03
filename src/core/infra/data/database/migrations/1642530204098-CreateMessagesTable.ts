@@ -46,6 +46,7 @@ export class CreateMessagesTable1642530204098 implements MigrationInterface {
           columnNames: ["user_id"],
           referencedTableName: "users",
           referencedColumnNames: ["uid"],
+          onDelete: "CASCADE"
         }),
       ],
   }));

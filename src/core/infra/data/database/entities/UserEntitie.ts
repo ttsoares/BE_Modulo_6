@@ -19,9 +19,10 @@ export class UserEntity extends BaseEntity {
 
   @Column({ name: "updated_at" })
     updatedAt!: Date;
-
-  @OneToMany(() => MessageEntity, message => message.user, {onDelete:"CASCADE"})
+    
+  @OneToMany(() => MessageEntity, message => message.user, {cascade: true})
   message!: MessageEntity[];
+
 
   @BeforeInsert()
   private beforeInsert(){

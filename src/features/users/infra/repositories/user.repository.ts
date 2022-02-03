@@ -27,7 +27,7 @@ export class UserRepository {
   }
 
   ///// Remove um usuário
-  async delete(uid: string): Promise<User | undefined> {
+  async deleteUser(uid: string): Promise<User | undefined> {
 
     const userEntity = await UserEntity.findOne(uid);
 
@@ -39,7 +39,7 @@ export class UserRepository {
   }
 
   ///// Traz a lista de usuários
-  async getAll(): Promise<User[]> {
+  async getAllUsers(): Promise<User[]> {
     const userEntities = await UserEntity.find();
 
     return userEntities.map((userEntity) =>
@@ -71,7 +71,7 @@ export class UserRepository {
   }
 
     /////  Atualiza um usuário no DB
-  async update(data: UserParams): Promise<User | undefined> {
+  async updateUser(data: UserParams): Promise<User | undefined> {
 
     const updtUser = await UserEntity.findOne({
 			where: {uid: data.uid}})

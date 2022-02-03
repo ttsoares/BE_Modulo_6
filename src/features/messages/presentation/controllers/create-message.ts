@@ -14,7 +14,7 @@ export class CreateMessageController implements Controller{
 			const { description, details } = req.body;
 
 			const repository = new MessageRepository();
-			const message = await repository.create({
+			const message = await repository.createMessage({
 				description: description,
 				details: details,
 				user_id: user_id

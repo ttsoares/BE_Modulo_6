@@ -18,7 +18,7 @@ export class UpdateUserController implements Controller{
 			// empty password is not allowed
 			if ( password.replace(/\s+/g,'') === '') return badRequest(res, "Senha vazia !");
 
-			const userUpdated = await repository.update({name, password, uid: user_id});
+			const userUpdated = await repository.updateUser({name, password, uid: user_id});
 
 			if (!userUpdated) return notFound(res, "Usuário não encontrado");
 

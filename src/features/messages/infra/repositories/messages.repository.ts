@@ -21,7 +21,7 @@ export class MessageRepository {
 //******************************
 
   ///// Cria uma nova mensagem no DB
-  async create( data: CreateMessageParams, ): Promise<Message | undefined> {
+  async createMessage( data: CreateMessageParams, ): Promise<Message | undefined> {
 
     const newMessage = MessageEntity.create({
       description: data.description,
@@ -44,13 +44,7 @@ export class MessageRepository {
   /////   Apaga uma mensagem pelo 'uid'
   async delete(uid: string): Promise<Message | undefined> {
 
-    console.log("########################")
-    console.log(uid)
-
     const oneMessage = await MessageEntity.findOne(uid);
-
-    console.log("**********************")
-    console.log(oneMessage);
 
     if (!oneMessage) return undefined;
 
