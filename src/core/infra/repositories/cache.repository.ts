@@ -3,7 +3,7 @@ import Redis from "../data/connections/redis";
 export class CacheRepository {
   async set(key: string, value: any): Promise<boolean> {
     const redis = await Redis.getConnection();
-    const result = await redis.set(key, JSON.stringify(value));
+    const result = await redis.set(key, JSON.stringify(value), "ex", 180);
     if (!result) return false;
     return true;
   }

@@ -26,6 +26,7 @@ export class CreateMessageController implements Controller{
 			const result = await cache.set(`thomas:message:${message.uid}`, message);
 
 			if (!result) console.log("NÃO SALVOU NO CACHE");
+			
 			await cache.delete(`thomas:${user_id}:messages`);
 
 			return sucess(res, message);
