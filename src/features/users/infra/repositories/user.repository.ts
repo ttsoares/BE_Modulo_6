@@ -10,6 +10,17 @@ interface UserParams {
   password: string;
 }
 
+/*
+Localmente consegue apagar usuários com mensagens.
+
+No heroku só consegue apagar usuários SEM mensagens.
+Se o usuário tem uma ou mais mensagens retorna o erro:
+  {
+    "error": "INTERNAL_SERVER_ERROR",
+    "message": "update or delete on table \"users\" violates foreign key constraint\"fk_messages_users\" on table \"messages\""
+  }
+*/
+
 export class UserRepository {
 //***************************
 

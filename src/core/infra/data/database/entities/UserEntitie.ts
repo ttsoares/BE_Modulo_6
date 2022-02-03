@@ -19,8 +19,12 @@ export class UserEntity extends BaseEntity {
 
   @Column({ name: "updated_at" })
     updatedAt!: Date;
-    
-  @OneToMany(() => MessageEntity, message => message.user, {cascade: true})
+
+// Usar como mostra abaixo também _não_ resolve o problema
+// de nao conseguir remover usuários com mensagens no heroku
+// @OneToMany(() => MessageEntity, message => message.user, {onDelete: "CASCADE"})
+
+@OneToMany(() => MessageEntity, message => message.user, {cascade: true})
   message!: MessageEntity[];
 
 
